@@ -1,0 +1,67 @@
+graph TB
+    %% User Interface Layer
+    Main[Main Interface<br/>main.py]:::ui
+    
+    %% Orchestration Layer
+    ParallelDownloader[Parallel Downloader<br/>parallel_downloader.py]:::orchestration
+    MonteCarloRunner[Monte Carlo Runner<br/>monte_carlo_runner.py]:::orchestration
+    
+    %% Data Downloaders Layer
+    StockPrices[Stock Prices<br/>stock_prices.py]:::downloader
+    IndexPrices[Index Prices<br/>index_prices.py]:::downloader
+    SimFinDownloader[SimFin Downloader<br/>simfin_downloader.py]:::downloader
+    AlphaVantageBase[Alpha Vantage Base<br/>alpha_vantage_base.py]:::base
+    StatisticsAnalyzer[Statistics Analyzer<br/>statistics_analyzer.py]:::analyzer
+    
+    %% Core Analysis Layer
+    Portfolio[Portfolio DataClass<br/>portfolio.py]:::core
+    
+    %% Data Processing Layer
+    DataPreprocessor[Data Preprocessor<br/>data_preprocessor.py]:::processor
+    VisualizationEngine[Visualization Engine<br/>visualization_engine.py]:::visualizer
+    FlexibleLoader[Flexible Loader<br/>flexible_loader.py]:::loader
+    
+    %% External Services
+    AlphaVantageAPI[Alpha Vantage API]:::external
+    SimFinAPI[SimFin API]:::external
+    DataStorage[Data Storage<br/>CSV Files]:::storage
+    
+    %% Connections
+    Main --> ParallelDownloader
+    Main --> MonteCarloRunner
+    
+    ParallelDownloader --> StockPrices
+    ParallelDownloader --> IndexPrices
+    ParallelDownloader --> SimFinDownloader
+    
+    StockPrices --> AlphaVantageBase
+    IndexPrices --> AlphaVantageBase
+    AlphaVantageBase --> AlphaVantageAPI
+    
+    SimFinDownloader --> SimFinAPI
+    SimFinDownloader --> StatisticsAnalyzer
+    
+    StockPrices --> DataStorage
+    IndexPrices --> DataStorage
+    SimFinDownloader --> DataStorage
+    
+    MonteCarloRunner --> Portfolio
+    Portfolio --> DataPreprocessor
+    Portfolio --> VisualizationEngine
+    Portfolio --> FlexibleLoader
+    
+    DataPreprocessor --> DataStorage
+    FlexibleLoader --> DataStorage
+    
+    %% Styling
+    classDef ui fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef orchestration fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef downloader fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef base fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef analyzer fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef core fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef processor fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef visualizer fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef loader fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef external fill:#f1f8e9,stroke:#689f38,stroke-width:2px
+    classDef storage fill:#f1f8e9,stroke:#689f38,stroke-width:2px
